@@ -7,7 +7,7 @@ _site
 vendor
 .DS_Store
 .bundle
-photos/**
+
 
 # Local Netlify folder
 .netlify
