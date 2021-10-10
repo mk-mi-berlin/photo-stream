@@ -2,7 +2,7 @@
 
 # Photo Stream
 
-Photo stream is a simpler home for your photos initially created by [@maxvoltar](https://github.com/maxvoltar/photo-stream) and now maintained by [@waschinski](https://github.com/waschinski) and [friends](#credits). Easy to use, self hosted, no tracking, just photos.
+Photo Stream is a simpler home for your photos initially created by [@maxvoltar](https://github.com/maxvoltar/photo-stream) and now maintained by [@waschinski](https://github.com/waschinski) and [friends](#credits). Easy to use, self hosted, no tracking, just photos.
 
 - [Examples](#examples)
 - [Features](#features)
@@ -15,7 +15,6 @@ Photo stream is a simpler home for your photos initially created by [@maxvoltar]
     - [Basics](#basics)
     - [Advanced](#advanced)
 - [Credits](#credits)
-- [Known issues](#known-issues)
 
 ## Examples
 
@@ -46,7 +45,7 @@ We like to take photos and share them. Problem is it's hard to really own your p
 
 ## How to install
 
-Previously the recommended way to install photo-stream was to fork the repository. In my opinion this was not really optimal and being a fan of Docker I began working on optimizations to run photo-stream in a container. That's why configuration has been moved from `_config.yml` to `.env` so when switching from the initial repo you will have to set up the `.env` file accordingly.
+Previously the recommended way to install Photo Stream was to fork the repository. In my opinion this was not really optimal and being a fan of Docker I began working on optimizations to run Photo Stream in a container. That's why configuration has been moved from `_config.yml` to `.env` so when switching from the initial repo you will have to set up the `.env` file accordingly.
 
 ### Using docker
 
@@ -56,7 +55,7 @@ There is an image over at [Docker Hub](https://hub.docker.com/r/waschinski/photo
 docker pull waschinski/photo-stream:latest
 ```
 
-Alternatively download the `docker-compose.yml` file, change the configuration as needed and use the following command to get photo-stream running:
+Alternatively download the `docker-compose.yml` file, change the configuration as needed and use the following command to get Photo Stream running:
 
 ```sh
 docker-compose up -d
@@ -64,30 +63,46 @@ docker-compose up -d
 
 The `photos` folder can be mounted as a volume. Make sure to put your photos in a folder called `original`.
 
+#### Using docker on raspberry pi:
+
+Prerequisites : docker and docker-compose are installed on RPI
+
+In docker-compose.yml comment `image` section, uncomment `build` section, and setup `BASE_REPO` arg to `arm32v6/ruby:3.0.1-alpine3.12`.
+
+Then `docker-compose build`
+
+Then `docker-compose up -d`
+
 ### Manually
 
-Check to see if you have Ruby installed (`ruby -v`). If you don't, you can follow the installation instructions provided [here](https://www.ruby-lang.org/en/documentation/installation/).
+Grab the latest version from the [release](https://github.com/waschinski/photo-stream/releases) page and extract it.
 
-Next you'll have to install [Jekyll](https://jekyllrb.com) (a simple `gem install bundler jekyll` should suffice).
+Make sure you meet the following requirements in order to run Photo Stream:
 
+#### Build tools
+
+How to install these depends on your OS. Debian users will go with `sudo apt-get install build-essential` while on MacOS you should be fine with `xcode-select --install`.
+
+#### Ruby (v3+ recommended)
+
+Check to see if you already have Ruby installed (`ruby -v`). If you don't, you can follow the installation instructions provided [here](https://www.ruby-lang.org/en/documentation/installation/).
+
+#### libvips
+
+Instructions on how to install libvips can be found [here](https://libvips.github.io/libvips/install.html).
+
+#### Jekyll
+
+Next you'll have to install [Jekyll](https://jekyllrb.com) (a simple `gem install bundler jekyll` should suffice). Make sure you meet its [requirements](https://jekyllrb.com/docs/installation/#requirements) or install them as well before proceeding.
+
+Once all these requirements are met you can finally install all the gems required by Photo Stream (you should be in the Photo Stream folder):
 ```sh
 bundle install
 ```
 
-You'll also need some additional dependencies:
-
-```sh
-# Make sure xcode CLT is installed first:
-xcode-select --install
-
-# This takes a while. Plug your laptop in and go grab a coffee, a book, or just
-# like, take a sec away from the computer and breathe for a bit.
-brew install glib vips
-```
-
 ## How to use
 
-Put your photos (not resized) in the `photos/originals` directory. Optionally you can give them a name, which will appear as the title of the photo page and in the RSS feed.
+Put your photos (not resized) in the `photos/original` directory. Optionally you can give them a name, which will appear as the title of the photo page and in the RSS feed.
 
 This command will serve the static page on your local machine. http://localhost:4000
 ```sh
@@ -150,7 +165,3 @@ Before publishing your website, Jekyll will resize your photos into 3 different 
 - [@pjaspers](https://github.com/pjaspers)
 - [@cloudz](https://github.com/cloudz)
 - [@waschinski](https://github.com/waschinski)
-
-## Known issues
-
-- You might see a `VIPS-WARNING` message while running `jekyll serve`. This is [a bug in libvips](https://github.com/libvips/libvips/issues/394#issuecomment-359780578) that's being tracked, but it's harmless.
