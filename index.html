@@ -5,6 +5,9 @@
 <html>
 {% include head.html %}
 <body>
+	<!-- Include the identity widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" type="text/javascript"></script>
+
 	{% assign target = "target" %}
 	<ul class="grid" id="{{ target }}">
 		{% assign images = page.images | default: site.static_files | photo_filter %}
